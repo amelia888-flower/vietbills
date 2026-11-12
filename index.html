@@ -172,6 +172,9 @@ footer .legend{justify-content:center;margin-top:10px}
     <a href="#qt1">QT1 · Ký kết HĐ</a>
     <a href="#qt2">QT2 · Báo giá &amp; PAKD</a>
     <a href="#qt3">QT3 · Tiếp nhận, Mở Job &amp; Vận hành</a>
+    <a href="#qt5">QT5 · Thu công nợ khách hàng</a>
+    <a href="#qt6">QT6 · Tạm ứng &amp; Hoàn ứng</a>
+    <a href="#qt7">QT7 · Thanh toán NCC / Thuế</a>
   </div>
 </nav>
 
@@ -206,9 +209,10 @@ footer .legend{justify-content:center;margin-top:10px}
       <span class="qt-pill">QT4.4 L xuất</span>
     </div>
     <div class="stage-arrow">→</div>
-    <div class="stage-card end">
+    <div class="stage-card">
       <h4>⑤ Thu tiền &amp; Công nợ</h4>
-      <span class="note">Không có QT riêng — tích hợp sẵn ở bước cuối của mỗi QT4 (Nhập giá &amp; debit / xuất hoá đơn)</span>
+      <span class="qt-pill">QT5 · Thu công nợ khách hàng</span>
+      <span class="note">Nối tiếp ngay sau bước "Nhập giá &amp; debit" ở mỗi luồng QT4.x</span>
     </div>
   </div>
 </section>
@@ -438,6 +442,99 @@ footer .legend{justify-content:center;margin-top:10px}
     <div class="hnode n-end">Hoàn thành — đóng Job<small>CUS</small></div>
   </div>
   <p class="hint">⏱ L xuất: không có ETD thì hạn tính là 5 ngày từ ngày giao hàng.</p>
+</section>
+
+<section id="qt5">
+  <div class="sec-head"><span class="num">QT5</span><h2>Thu công nợ khách hàng</h2></div>
+  <p class="sec-lead">Thuộc trục <b>Thu tiền &amp; Công nợ</b> — quy trình tuyến tính, nối tiếp ngay sau bước "Nhập giá &amp; debit" ở mỗi luồng QT4.x.</p>
+
+  <div class="phase-tag">Giai đoạn 1 — Xuất hoá đơn &amp; theo dõi công nợ khách hàng</div>
+  <div class="hflow">
+    <div class="hnode n-manual">Nhận debit<small>Kế toán · từ bộ phận Tính phí</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Kiểm tra doanh thu, chi phí<small>Kế toán</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Lập hoá đơn nháp<small>Kế toán</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-appr">Xác nhận &amp; phát hành hoá đơn<small>Khách hàng xác nhận → Kế toán phát hành</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Hạch toán công nợ<small>Kế toán · cập nhật link theo dõi</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Đối chiếu cuối tháng<small>Kế toán · biên bản đối chiếu công nợ</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Nhắc &amp; thu tiền<small>Kế toán · theo dõi lịch thanh toán</small></div>
+  </div>
+
+  <div class="phase-tag">Giai đoạn 2 — Hạch toán thu tiền khách hàng</div>
+  <div class="hflow">
+    <div class="hnode n-manual">Kiểm tra tiền về<small>Kế toán phải thu · đối chiếu sao kê ngân hàng</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Hạch toán thu tiền theo Job<small>Kế toán phải thu / phải trả</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-end">Cập nhật &amp; đối chiếu công nợ<small>Kế toán</small></div>
+  </div>
+  <p class="hint">Hai quy trình dưới đây (QT6, QT7) là quy trình kế toán bổ trợ — không nằm trong luồng vận hành chính, được note cùng nhóm Thu công nợ KH để tiện theo dõi.</p>
+</section>
+
+<section id="qt6">
+  <div class="sec-head"><span class="num">QT6</span><h2>Tạm ứng &amp; Hoàn ứng</h2></div>
+  <p class="sec-lead">Quy trình kế toán bổ trợ, không thuộc luồng vận hành chính.</p>
+
+  <div class="phase-tag">Giai đoạn 1 — Tạm ứng</div>
+  <div class="hflow">
+    <div class="hnode n-manual">Lập đề nghị tạm ứng<small>Người cần tạm ứng · phiếu AD trên Fast Pro</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-appr">Duyệt cấp bộ phận<small>Trưởng bộ phận</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Kiểm tra<small>Kế toán thanh toán</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-appr">Duyệt<small>Kế toán trưởng</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-appr">Phê duyệt<small>Ban lãnh đạo</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Chi tiền<small>Kế toán quỹ</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Hạch toán, lưu phiếu chi<small>Kế toán quỹ</small></div>
+  </div>
+
+  <div class="phase-tag">Giai đoạn 2 — Hoàn ứng</div>
+  <div class="hflow">
+    <div class="hnode n-manual">Tập hợp chứng từ<small>Người tạm ứng</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Lập đề nghị hoàn ứng<small>Người tạm ứng · phiếu SM trên Fast Pro</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-appr">Kiểm tra cấp bộ phận<small>Trưởng bộ phận</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Kiểm tra chứng từ<small>Kế toán thanh toán</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-appr">Duyệt quyết toán<small>Kế toán trưởng → Ban lãnh đạo</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Hoàn / thu bổ sung<small>Kế toán · nếu chi lệch tạm ứng</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Hạch toán, đóng tạm ứng<small>Kế toán</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-end">Lưu chứng từ<small>Kế toán thanh toán</small></div>
+  </div>
+</section>
+
+<section id="qt7">
+  <div class="sec-head"><span class="num">QT7</span><h2>Thanh toán (hãng tàu, thuế… không có thời hạn công nợ)</h2></div>
+  <p class="sec-lead">Quy trình kế toán bổ trợ, không thuộc luồng vận hành chính.</p>
+  <div class="hflow">
+    <div class="hnode n-manual">Lập đề nghị thanh toán<small>Bộ phận phụ trách · AR/SM kèm debit NCC</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Kiểm tra<small>Kế toán thanh toán</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-appr">Duyệt<small>Kế toán trưởng</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-appr">Phê duyệt<small>Ban lãnh đạo</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Thanh toán<small>Kế toán thanh toán · theo kế hoạch</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Đối chiếu, hạch toán<small>Kế toán ngân hàng · sao kê ngân hàng</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-end">Lưu hồ sơ<small>Kế toán</small></div>
+  </div>
 </section>
 
 <footer>
