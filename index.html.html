@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Vietbills Sơ Đồ Vận Hành</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: every quy trình reads left-to-right as a horizontal flowchart so the
+   whole shape stays visible at once; at a decision point all branches are drawn as stacked
+   rows in the same horizontal slot, and clicking a branch tag lights up that row's path
+   (full color) while the sibling rows dim — nothing is hidden, so the overview never breaks. */
+:root{
+  --bg:#f4f6fb; --card:#ffffff; --line:#dfe5ef; --ink:#1d2433; --mut:#5b667a;
+  --navy:#1c3f77; --navy-d:#142f5a; --navy-soft:#eaf0fb; --red:#b0242b;
+  --manual:#fde8ea; --manual-b:#e8a3a9; --manual-ink:#8f1d25;
+  --appr:#e3f5ea;   --appr-b:#7fc79a;   --appr-ink:#176b3c;
+  --dec:#fff2d9;    --dec-b:#efc36b;    --dec-ink:#8a5a00;
+  --merge:#dff4f6;  --merge-b:#7cc7cf;  --merge-ink:#126a74;
+  --auto:#e4ecfb;   --auto-b:#8fa9e0;   --auto-ink:#2a4ea0;
+  --end:#eceff4;    --end-b:#b6bfcf;    --end-ink:#4a5568;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151f; --card:#171e2b; --line:#2a3344; --ink:#e7ebf3; --mut:#93a0b8;
+    --navy:#7fa4f2; --navy-d:#bcd2ff; --navy-soft:#1b2436; --red:#ff8a86;
+    --manual:#2f1e22; --manual-b:#8f4a52; --manual-ink:#ffb4b8;
+    --appr:#16261c;   --appr-b:#3f7a52;   --appr-ink:#8fe3ac;
+    --dec:#2c2109;    --dec-b:#a9811f;    --dec-ink:#f5cf6b;
+    --merge:#0f262a;  --merge-b:#2f7883;  --merge-ink:#86dbe6;
+    --auto:#182036;   --auto-b:#45609e;   --auto-ink:#aac1f5;
+    --end:#1c2029;    --end-b:#434d60;    --end-ink:#b7c0d1;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151f; --card:#171e2b; --line:#2a3344; --ink:#e7ebf3; --mut:#93a0b8;
+  --navy:#7fa4f2; --navy-d:#bcd2ff; --navy-soft:#1b2436; --red:#ff8a86;
+  --manual:#2f1e22; --manual-b:#8f4a52; --manual-ink:#ffb4b8;
+  --appr:#16261c;   --appr-b:#3f7a52;   --appr-ink:#8fe3ac;
+  --dec:#2c2109;    --dec-b:#a9811f;    --dec-ink:#f5cf6b;
+  --merge:#0f262a;  --merge-b:#2f7883;  --merge-ink:#86dbe6;
+  --auto:#182036;   --auto-b:#45609e;   --auto-ink:#aac1f5;
+  --end:#1c2029;    --end-b:#434d60;    --end-ink:#b7c0d1;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:68px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.55;font-size:15.5px}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto}
+h1,h2,h3,h4{font-family:'Be Vietnam Pro',sans-serif;font-weight:700;margin:0;text-wrap:balance}
+button{font-family:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+
+/* ---- hero ---- */
+header.hero{background:linear-gradient(135deg,var(--card) 0%,var(--navy-soft) 100%);border-bottom:4px solid var(--red)}
+header.hero .wrap{padding-block:30px 26px;display:flex;flex-direction:column;gap:14px}
+.wordmark{display:inline-flex;align-items:center;gap:10px}
+.wordmark .box{width:38px;height:38px;border-radius:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;letter-spacing:-.02em;flex:0 0 auto}
+.wordmark .name{font-weight:700;font-size:13.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--navy-d)}
+.hero h1{font-size:26px;color:var(--navy-d);line-height:1.25}
+.hero p.lead{margin:0;color:var(--mut);font-size:14.5px;max-width:680px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 13px;font-size:12.5px;color:var(--navy-d);font-weight:600}
+
+/* ---- sticky nav ---- */
+nav.top{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;gap:2px;overflow-x:auto;padding-block:8px}
+nav.top a{white-space:nowrap;text-decoration:none;color:var(--ink);font-size:13.5px;font-weight:600;padding:7px 13px;border-radius:8px}
+nav.top a:hover{background:var(--navy-soft);color:var(--navy-d)}
+
+main{padding-block:28px 64px}
+section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 22px 28px;margin-bottom:22px;scroll-margin-top:72px}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.sec-head .num{background:var(--navy);color:#fff;border-radius:8px;font-size:13px;font-weight:700;padding:5px 10px;flex:0 0 auto}
+.sec-head h2{font-size:20px;color:var(--navy-d)}
+.sec-lead{color:var(--mut);font-size:13.5px;margin:6px 0 4px}
+
+/* ---- legend ---- */
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-bottom:4px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:13px;height:13px;border-radius:4px;border:1.5px solid;display:inline-block}
+.legend i.l-manual{background:var(--manual);border-color:var(--manual-b)}
+.legend i.l-appr{background:var(--appr);border-color:var(--appr-b)}
+.legend i.l-dec{background:var(--dec);border-color:var(--dec-b);border-radius:50%}
+.legend i.l-merge{background:var(--merge);border-color:var(--merge-b)}
+.legend i.l-auto{background:var(--auto);border-color:var(--auto-b)}
+.legend i.l-end{background:var(--end);border-color:var(--end-b);border-radius:50%}
+
+/* ---- Part 1: trục overview ---- */
+.stage-row{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+.stage-card{flex:1 1 170px;min-width:150px;background:var(--bg);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:14px;padding:16px 13px;display:flex;flex-direction:column;gap:8px}
+.stage-card.end{border-top:4px dashed var(--mut)}
+.stage-card h4{font-size:13px;color:var(--navy-d);line-height:1.3}
+.stage-card .qt-pill{font-size:11.5px;font-weight:700;background:var(--navy-soft);color:var(--navy-d);border-radius:999px;padding:4px 10px;display:inline-block;width:fit-content}
+.stage-card .note{font-size:10.5px;color:var(--mut);line-height:1.35}
+.stage-arrow{display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:19px;padding:0 5px;flex:0 0 auto}
+@media(max-width:860px){.stage-row{flex-direction:column}.stage-arrow{transform:rotate(90deg);padding:6px 0;align-self:center}}
+
+/* ---- Part 2: horizontal flow components ---- */
+.phase-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--navy-d);margin:24px 0 6px;padding-left:10px;border-left:3px solid var(--red)}
+.phase-tag:first-of-type{margin-top:4px}
+
+.hflow{display:flex;align-items:center;gap:0;overflow-x:auto;padding:8px 4px 16px}
+.hflow>*{flex:0 0 auto}
+
+.hnode{border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;font-size:12.5px;font-weight:600;text-align:center;background:var(--card);line-height:1.3;min-width:132px;max-width:175px}
+.hnode small{display:block;color:var(--mut);font-size:10.5px;font-weight:500;margin-top:3px}
+.n-manual{background:var(--manual);border-color:var(--manual-b);color:var(--manual-ink)}
+.n-appr{background:var(--appr);border-color:var(--appr-b);color:var(--appr-ink)}
+.n-auto{background:var(--auto);border-color:var(--auto-b);color:var(--auto-ink)}
+.n-merge{background:var(--merge);border-color:var(--merge-b);color:var(--merge-ink)}
+.n-dec{background:var(--dec);border-color:var(--dec-b);color:var(--dec-ink);border-radius:999px}
+.n-end{background:var(--end);border-color:var(--end-b);color:var(--end-ink);border-radius:999px;font-weight:700}
+
+.harr{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--mut);font-size:17px;padding:0 8px}
+.harr::before{content:"→"}
+.harr .lbl{font-size:10px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:1px 9px;margin-top:3px;white-space:nowrap;color:var(--mut)}
+
+.par-stack{display:flex;flex-direction:column;gap:6px;padding:9px 10px;border:1.5px dashed var(--line);border-radius:12px;background:var(--bg)}
+.par-stack-label{font-size:9.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;text-align:center;margin-bottom:1px}
+.par-stack .hnode{min-width:118px;max-width:165px;font-size:11.5px;padding:7px 10px}
+
+.fork{display:flex;flex-direction:column;gap:9px}
+.fork-row{display:flex;align-items:center;gap:0;overflow-x:auto;padding:7px 9px;border-radius:12px;transition:opacity .2s ease,filter .2s ease}
+.fork[data-active] .fork-row{opacity:.38;filter:grayscale(.4)}
+.fork[data-active] .fork-row.active{opacity:1;filter:none;background:var(--navy-soft)}
+.fork-tag{cursor:pointer;font-size:11.5px;font-weight:700;border-radius:999px;padding:6px 14px;border:1.5px solid var(--line);background:var(--card);color:var(--mut);flex:0 0 auto;margin-right:9px;white-space:nowrap}
+.fork-tag.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.fork-tag:hover{border-color:var(--navy);color:var(--navy-d)}
+.fork-note{font-size:11.5px;color:var(--mut);white-space:nowrap}
+
+.sla-inline{font-size:10.5px;font-weight:700;background:var(--navy-soft);color:var(--navy-d);border-radius:999px;padding:3px 10px;margin-right:9px;white-space:nowrap}
+
+.outcome-col{display:flex;flex-direction:column;gap:4px;margin-left:9px}
+.oc{font-size:10.5px;font-weight:700;border-radius:999px;padding:3px 10px;border:1px solid;white-space:nowrap}
+.oc.ok{background:var(--appr);border-color:var(--appr-b);color:var(--appr-ink)}
+.oc.loop{background:var(--dec);border-color:var(--dec-b);color:var(--dec-ink)}
+.oc.no{background:var(--manual);border-color:var(--manual-b);color:var(--manual-ink)}
+
+.hint{font-size:12px;color:var(--mut);margin:2px 0 0}
+
+footer{text-align:center;color:var(--mut);font-size:12.5px;padding-block:8px 44px}
+footer .legend{justify-content:center;margin-top:10px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap gutter">
+    <div class="wordmark"><span class="box">VB</span><span class="name">Vietbills Logistics</span></div>
+    <h1>Sơ đồ vận hành &amp; giải pháp thiết lập hệ thống</h1>
+    <p class="lead">Toàn cảnh các trục vận hành chính của doanh nghiệp và các quy trình sẽ được thiết lập trên hệ thống. Mỗi quy trình đọc theo chiều ngang; tại điểm rẽ nhánh, bấm vào thẻ nhánh để làm sáng đúng luồng xử lý — các nhánh còn lại vẫn hiển thị mờ để giữ góc nhìn tổng quan.</p>
+    <div class="chips">
+      <span class="chip">1 · Tìm kiếm KH</span>
+      <span class="chip">2 · Báo giá</span>
+      <span class="chip">3 · Chốt Job &amp; Booking</span>
+      <span class="chip">4 · Vận hành &amp; Giao hàng</span>
+      <span class="chip">5 · Thu tiền &amp; Công nợ</span>
+    </div>
+  </div>
+</header>
+
+<nav class="top">
+  <div class="wrap gutter">
+    <a href="#overview">Tổng quan trục vận hành</a>
+    <a href="#qt1">QT1 · Ký kết HĐ</a>
+    <a href="#qt2">QT2 · Báo giá &amp; PAKD</a>
+    <a href="#qt3">QT3 · Tiếp nhận, Mở Job &amp; Vận hành</a>
+  </div>
+</nav>
+
+<main class="wrap gutter">
+
+<section id="overview">
+  <div class="sec-head"><span class="num">1</span><h2>Trục vận hành &amp; quy trình thiết lập</h2></div>
+  <p class="sec-lead">5 trục vận hành chính của Vietbills, và quy trình (QT) sẽ được dựng trên hệ thống cho mỗi trục.</p>
+
+  <div class="stage-row">
+    <div class="stage-card">
+      <h4>① Tìm kiếm KH</h4>
+      <span class="qt-pill">QT1 · Ký kết HĐ &amp; Phụ lục HĐ</span>
+      <span class="note">Kích hoạt khi khách hàng mới ký hợp đồng</span>
+    </div>
+    <div class="stage-arrow">→</div>
+    <div class="stage-card">
+      <h4>② Báo giá</h4>
+      <span class="qt-pill">QT2 · Báo giá &amp; PAKD</span>
+    </div>
+    <div class="stage-arrow">→</div>
+    <div class="stage-card">
+      <h4>③ Chốt Job &amp; Booking</h4>
+      <span class="qt-pill">QT3 · Tiếp nhận &amp; Mở Job</span>
+    </div>
+    <div class="stage-arrow">→</div>
+    <div class="stage-card">
+      <h4>④ Vận hành &amp; Giao hàng / Chứng từ</h4>
+      <span class="qt-pill">QT4.1 Cước nhập</span>
+      <span class="qt-pill">QT4.2 Cước xuất</span>
+      <span class="qt-pill">QT4.3 L nhập</span>
+      <span class="qt-pill">QT4.4 L xuất</span>
+    </div>
+    <div class="stage-arrow">→</div>
+    <div class="stage-card end">
+      <h4>⑤ Thu tiền &amp; Công nợ</h4>
+      <span class="note">Không có QT riêng — tích hợp sẵn ở bước cuối của mỗi QT4 (Nhập giá &amp; debit / xuất hoá đơn)</span>
+    </div>
+  </div>
+</section>
+
+<section id="qt1">
+  <div class="sec-head"><span class="num">QT1</span><h2>Ký kết Hợp đồng &amp; Phụ lục HĐ</h2></div>
+  <p class="sec-lead">Thuộc trục <b>Tìm kiếm KH</b> — quy trình tuyến tính, không rẽ nhánh.</p>
+  <div class="hflow">
+    <div class="hnode n-manual">Soạn hợp đồng<small>Sales</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-appr">Review hợp đồng<small>HCNS, Kế toán</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-appr">BLĐ ký kết hợp đồng<small>Ban lãnh đạo</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Gửi HĐ cho khách hàng<small>HCNS</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Theo dõi &amp; nhận lại HĐ đã ký<small>Sales</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-end">Lưu hồ sơ<small>HCNS</small></div>
+  </div>
+</section>
+
+<section id="qt2">
+  <div class="sec-head"><span class="num">QT2</span><h2>Báo giá &amp; Phương án kinh doanh (PAKD)</h2></div>
+  <p class="sec-lead">Thuộc trục <b>Báo giá</b> — quy trình nhiều giai đoạn nhất, có 4 điểm rẽ nhánh. Mỗi điểm rẽ nhánh hiển thị song song toàn bộ các lựa chọn; bấm vào một thẻ để làm sáng đúng luồng đó.</p>
+
+  <div class="phase-tag">Giai đoạn 1 — Tiếp nhận &amp; kiểm tra khách hàng</div>
+  <div class="hflow">
+    <div class="hnode n-manual">Tiếp nhận thông tin &amp; yêu cầu báo giá<small>Sales</small></div>
+    <div class="harr"></div>
+    <div class="fork" data-active="quen">
+      <div class="fork-row active" data-path="quen">
+        <button type="button" class="fork-tag on" data-key="quen" onclick="pickPath(this)">Khách quen</button>
+        <span class="fork-note">Đã có hợp đồng — bỏ qua kiểm tra MST</span>
+      </div>
+      <div class="fork-row" data-path="moi">
+        <button type="button" class="fork-tag" data-key="moi" onclick="pickPath(this)">Khách mới</button>
+        <div class="harr"></div>
+        <div class="hnode n-auto">Kiểm tra trùng MST<small>Hệ thống / Dataset</small></div>
+        <div class="outcome-col">
+          <span class="oc ok">✓ Không trùng → tiếp tục</span>
+          <span class="oc loop">↺ Đã tồn tại → sửa lại / huỷ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-tag">Giai đoạn 2 — Thu thập báo giá (4 bộ phận làm song song)</div>
+  <div class="hflow">
+    <div class="par-stack">
+      <div class="par-stack-label">Chạy đồng thời</div>
+      <div class="hnode n-manual">Điều vận báo giá<small>SLA 1h</small></div>
+      <div class="hnode n-manual">OPS báo giá<small>SLA 1h</small></div>
+      <div class="hnode n-manual">Overseas báo giá<small>A-O xuất · SLA 2h</small></div>
+      <div class="hnode n-manual">Pricing báo giá<small>A-O nhập · SLA 2h</small></div>
+    </div>
+    <div class="harr"><span class="lbl">khi đủ 4 bộ phận</span></div>
+    <div class="hnode n-merge">Gộp nhánh báo giá</div>
+  </div>
+
+  <div class="phase-tag">Giai đoạn 3 — Lập &amp; duyệt PAKD</div>
+  <div class="hflow">
+    <div class="hnode n-manual">Lên PAKD &amp; báo giá (B6)<small>Sales · SLA 2h</small></div>
+    <div class="harr"></div>
+    <div class="fork" data-active="gt5">
+      <div class="fork-row active" data-path="gt5">
+        <button type="button" class="fork-tag on" data-key="gt5" onclick="pickPath(this)">GP &gt; 5%</button>
+        <span class="fork-note">Không cần duyệt riêng</span>
+      </div>
+      <div class="fork-row" data-path="le5">
+        <button type="button" class="fork-tag" data-key="le5" onclick="pickPath(this)">GP ≤ 5%</button>
+        <div class="harr"></div>
+        <div class="hnode n-appr">TBP duyệt GP<small>Trưởng bộ phận</small></div>
+        <div class="outcome-col">
+          <span class="oc ok">✓ Phê duyệt → tiếp tục</span>
+          <span class="oc loop">↺ Chỉnh sửa → về B6</span>
+          <span class="oc no">✕ Từ chối → Kết thúc</span>
+        </div>
+      </div>
+    </div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Gửi báo giá &amp; chờ phản hồi<small>Sales</small></div>
+    <div class="harr"></div>
+    <div class="fork" data-active="won">
+      <div class="fork-row active" data-path="won">
+        <button type="button" class="fork-tag on" data-key="won" onclick="pickPath(this)">Khách đồng ý</button>
+        <div class="hnode n-appr">TBP duyệt PAKD &amp; báo giá<small>SLA 2h</small></div>
+        <div class="outcome-col">
+          <span class="oc ok">✓ tiếp tục</span>
+          <span class="oc loop">↺ về B6</span>
+          <span class="oc no">✕ Kết thúc</span>
+        </div>
+        <div class="harr"></div>
+        <div class="hnode n-appr">BLĐ duyệt PAKD &amp; báo giá<small>Ban lãnh đạo</small></div>
+        <div class="outcome-col">
+          <span class="oc ok">✓ sang GĐ 4</span>
+          <span class="oc loop">↺ về B6</span>
+          <span class="oc no">✕ Kết thúc</span>
+        </div>
+      </div>
+      <div class="fork-row" data-path="lost">
+        <button type="button" class="fork-tag" data-key="lost" onclick="pickPath(this)">Khách từ chối</button>
+        <div class="harr"></div>
+        <div class="hnode n-end">Kết thúc — Đã huỷ</div>
+      </div>
+      <div class="fork-row" data-path="edit">
+        <button type="button" class="fork-tag" data-key="edit" onclick="pickPath(this)">Yêu cầu chỉnh sửa</button>
+        <span class="fork-note">↺ Quay lại B6 — Lên PAKD &amp; báo giá</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-tag">Giai đoạn 4 — Phân loại &amp; bàn giao khách hàng</div>
+  <div class="hflow">
+    <div class="fork" data-active="quen2">
+      <div class="fork-row active" data-path="quen2">
+        <button type="button" class="fork-tag on" data-key="quen2" onclick="pickPath(this)">Khách quen (đã có mã)</button>
+        <span class="fork-note">Chuyển thẳng sang bước bàn giao</span>
+      </div>
+      <div class="fork-row" data-path="moi2">
+        <button type="button" class="fork-tag" data-key="moi2" onclick="pickPath(this)">Khách mới</button>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Tạo mã khách hàng<small>Sales / CUS</small></div>
+        <div class="harr"></div>
+        <div class="par-stack">
+          <div class="par-stack-label">Phân công</div>
+          <div class="hnode n-manual">Điều vận phụ trách</div>
+          <div class="hnode n-manual">OPs phụ trách</div>
+          <div class="hnode n-manual">Kế toán phụ trách</div>
+          <div class="hnode n-manual">CUS phụ trách</div>
+        </div>
+        <div class="harr"></div>
+        <div class="hnode n-merge">Tổng hợp nhân sự</div>
+        <div class="harr"></div>
+        <div class="hnode n-auto">Lưu vào master data</div>
+      </div>
+    </div>
+    <div class="harr"></div>
+    <div class="hnode n-end">Chuyển CUS tiếp nhận &amp; mở Job<small>Sales → CUS</small></div>
+  </div>
+</section>
+
+<section id="qt3">
+  <div class="sec-head"><span class="num">QT3</span><h2>Tiếp nhận, Mở Job &amp; Vận hành theo lô hàng</h2></div>
+  <p class="sec-lead">Thuộc trục <b>Chốt Job &amp; Booking</b> → <b>Vận hành &amp; Giao hàng/Chứng từ</b>. Sau khi mở Job, công việc tỏa thành 4 luồng vận hành song song theo loại hình lô hàng — bấm vào thẻ loại hình để làm sáng đúng luồng. Bước cuối mỗi luồng (nhập giá/xuất hoá đơn) chính là điểm kết nối sang trục <b>Thu tiền &amp; Công nợ</b>.</p>
+
+  <div class="hflow">
+    <div class="hnode n-appr">Tiếp nhận job &amp; kiểm tra điều kiện<small>CUS</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Mở Job trên FAST<small>CUS</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-manual">Theo dõi công việc<small>CUS</small></div>
+    <div class="harr"><span class="lbl">tỏa 4 luồng</span></div>
+
+    <div class="fork" data-active="cn">
+      <div class="fork-row active" data-path="cn">
+        <button type="button" class="fork-tag on" data-key="cn" onclick="pickPath(this)">QT4.1 Cước nhập</button>
+        <span class="sla-inline">⏱ 3 ngày từ ETA</span>
+        <div class="hnode n-manual">Xác nhận booking<small>Booking</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Tiếp nhận chứng từ<small>Docs</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Theo dõi vận chuyển<small>CUS</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Phát lệnh giao hàng<small>Docs</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-end">Nhập giá &amp; debit<small>Pricing, Kế toán</small></div>
+      </div>
+
+      <div class="fork-row" data-path="cx">
+        <button type="button" class="fork-tag" data-key="cx" onclick="pickPath(this)">QT4.2 Cước xuất</button>
+        <span class="sla-inline">⏱ Trước ETD 3 ngày</span>
+        <div class="hnode n-manual">Tạo booking<small>Booking</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Chuẩn bị chứng từ<small>Docs</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Theo dõi vận chuyển<small>CUS</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Phát hành chứng từ<small>Docs</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-end">Nhập giá &amp; debit<small>Pricing, Kế toán</small></div>
+      </div>
+
+      <div class="fork-row" data-path="ln">
+        <button type="button" class="fork-tag" data-key="ln" onclick="pickPath(this)">QT4.3 L nhập</button>
+        <span class="sla-inline">⏱ 3 ngày từ ETA</span>
+        <div class="hnode n-manual">Tiếp nhận chứng từ<small>CUS</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Kiểm tra chứng từ<small>Docs</small></div>
+        <div class="harr"><span class="lbl">song song</span></div>
+        <div class="par-stack">
+          <div class="hnode n-manual">Đăng ký KT chuyên ngành<small>Tờ khai</small></div>
+          <div class="hnode n-manual">Khai &amp; truyền tờ khai<small>Tờ khai</small></div>
+          <div class="hnode n-manual">Lấy lệnh giao hàng<small>CUS</small></div>
+        </div>
+        <div class="harr"></div>
+        <div class="hnode n-auto">Thông quan<small>Tờ khai</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Nhận &amp; giao hàng<small>Điều vận</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-end">Nhập giá &amp; chốt cuối<small>Pricing, Kế toán</small></div>
+      </div>
+
+      <div class="fork-row" data-path="lx">
+        <button type="button" class="fork-tag" data-key="lx" onclick="pickPath(this)">QT4.4 L xuất</button>
+        <span class="sla-inline">⏱ Trước ETD 3 ngày</span>
+        <div class="hnode n-manual">Tiếp nhận yêu cầu<small>CUS</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Kiểm tra chứng từ<small>Docs</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-manual">Hoàn thiện tờ khai<small>Tờ khai</small></div>
+        <div class="harr"><span class="lbl">song song</span></div>
+        <div class="par-stack">
+          <div class="hnode n-manual">Xin C/O<small>Docs</small></div>
+          <div class="hnode n-manual">Điều xe<small>Điều vận</small></div>
+        </div>
+        <div class="harr"></div>
+        <div class="hnode n-auto">Thông quan<small>Tờ khai</small></div>
+        <div class="harr"></div>
+        <div class="hnode n-end">Nhập giá<small>Pricing, Kế toán</small></div>
+      </div>
+    </div>
+
+    <div class="harr"><span class="lbl">sau khi hoàn tất</span></div>
+    <div class="hnode n-merge">Tổng hợp dịch vụ phát sinh<small>CUS, Pricing</small></div>
+    <div class="harr"></div>
+    <div class="hnode n-end">Hoàn thành — đóng Job<small>CUS</small></div>
+  </div>
+  <p class="hint">⏱ L xuất: không có ETD thì hạn tính là 5 ngày từ ngày giao hàng.</p>
+</section>
+
+<footer>
+  <div>Vietbills Logistics — Sơ đồ vận hành &amp; giải pháp thiết lập hệ thống</div>
+  <div class="legend">
+    <span><i class="l-manual"></i> Thao tác thủ công</span>
+    <span><i class="l-appr"></i> Phê duyệt</span>
+    <span><i class="l-dec"></i> Điểm quyết định</span>
+    <span><i class="l-merge"></i> Gộp / tổng hợp</span>
+    <span><i class="l-auto"></i> Tự động hệ thống</span>
+    <span><i class="l-end"></i> Kết thúc / hoàn thành</span>
+  </div>
+</footer>
+
+</main>
+
+<script>
+function pickPath(tag){
+  var fork = tag.closest('.fork');
+  var key = tag.getAttribute('data-key');
+  fork.setAttribute('data-active', key);
+  fork.querySelectorAll('.fork-tag').forEach(function(t){ t.classList.toggle('on', t === tag); });
+  fork.querySelectorAll('.fork-row').forEach(function(row){
+    row.classList.toggle('active', row.getAttribute('data-path') === key);
+  });
+}
+</script>
+</body>
+</html>
